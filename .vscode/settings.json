@@ -1,1 +1,10 @@
-{"al.enableCodeAnalysis": true, "al.codeAnalyzers": ["${CodeCop}", "${UICop}", "${PerTenantExtensionCop}"]}
+{"al.enableCodeAnalysis": true, "al.codeAnalyzers": [
+        "${CodeCop}",
+        "${UICop}",
+        "${AppSourceCop}",
+        "${analyzerFolder}ALCops.ApplicationCop.dll",
+        "${analyzerFolder}ALCops.FormattingCop.dll",
+        "${analyzerFolder}ALCops.LinterCop.dll",
+        "${analyzerFolder}ALCops.PlatformCop.dll",
+        "${analyzerFolder}ALCops.Common.dll"
+    ]}
