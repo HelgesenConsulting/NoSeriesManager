@@ -2,7 +2,7 @@ namespace HelgesenConsulting.NoSeriesManager;
 
 using Microsoft.Foundation.NoSeries;
 
-codeunit 50002 "Create No. Series Lines NSHLG"
+codeunit 70574000 "Create No. Series Lines NSHLG"
 {
     procedure RunDialog(SeriesCode: Code[20])
     var

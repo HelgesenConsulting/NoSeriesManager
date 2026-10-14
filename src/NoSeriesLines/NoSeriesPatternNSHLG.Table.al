@@ -2,7 +2,7 @@ namespace HelgesenConsulting.NoSeriesManager;
 
 using Microsoft.Foundation.NoSeries;
 
-table 50001 "No. Series Pattern NSHLG"
+table 70574000 "No. Series Pattern NSHLG"
 {
     Caption = 'No. Series Pattern';
     DataClassification = CustomerContent;

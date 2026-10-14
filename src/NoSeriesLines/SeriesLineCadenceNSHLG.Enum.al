@@ -1,6 +1,6 @@
 namespace HelgesenConsulting.NoSeriesManager;
 
-enum 50000 "Series Line Cadence NSHLG"
+enum 70574000 "Series Line Cadence NSHLG"
 {
     Extensible = false;
     Caption = 'Series Line Cadence';

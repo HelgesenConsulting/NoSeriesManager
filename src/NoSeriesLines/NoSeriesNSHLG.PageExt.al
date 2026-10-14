@@ -2,7 +2,7 @@ namespace HelgesenConsulting.NoSeriesManager;
 
 using Microsoft.Foundation.NoSeries;
 
-pageextension 50004 "No. Series NSHLG" extends "No. Series"
+pageextension 70574000 "No. Series NSHLG" extends "No. Series"
 {
     actions
     {

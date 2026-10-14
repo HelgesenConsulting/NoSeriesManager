@@ -2,7 +2,7 @@ namespace HelgesenConsulting.NoSeriesManager;
 
 using Microsoft.Foundation.NoSeries;
 
-permissionset 50007 "NSMGR NSHLG, EDIT"
+permissionset 70574001 "NSMGR NSHLG, EDIT"
 {
     Assignable = true;
     Caption = 'No Series Manager - Edit';

@@ -1,6 +1,6 @@
 namespace HelgesenConsulting.NoSeriesManager;
 
-page 50003 "Create No. Series Lines NSHLG"
+page 70574000 "Create No. Series Lines NSHLG"
 {
     Caption = 'Create No. Series Lines';
     PageType = StandardDialog;
