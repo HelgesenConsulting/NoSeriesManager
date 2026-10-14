@@ -1,0 +1,15 @@
+# OCPF BC Agentic Development Framework — always ignored (Ops § Repository Hygiene)
+.claude/settings.local.json
+ocpfFramework/state/
+ocpfFramework/standardsGuide/
+ocpfFramework/opsGuide/
+ocpfFramework/runbookSteps/
+ocpfFramework/documentTemplates/
+ocpfFramework/patterns/
+ocpfFramework/scripts/
+.alpackages/
+*.g.xlf
+
+# OCPF BC Agentic Development Framework — framework files (not tracked)
+ocpfFramework/
+.claude/agents/ocpf-generator.md

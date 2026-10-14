@@ -1,0 +1,1 @@
+{ "mcpServers": { "al": { "command": "cmd.exe", "args": ["/c", "ocpfFramework\scripts\al-mcp.cmd"] } } }
