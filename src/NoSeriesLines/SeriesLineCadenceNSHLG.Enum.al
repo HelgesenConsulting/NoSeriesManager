@@ -5,10 +5,6 @@ enum 70574000 "Series Line Cadence NSHLG"
     Extensible = false;
     Caption = 'Series Line Cadence';
 
-    value(0; " ")
-    {
-        Caption = ' ';
-    }
     value(1; Day)
     {
         Caption = 'Day';

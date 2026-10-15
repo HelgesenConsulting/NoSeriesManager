@@ -4,6 +4,8 @@ using Microsoft.Foundation.NoSeries;
 
 codeunit 70574000 "Create No. Series Lines NSHLG"
 {
+    Permissions = tabledata "No. Series Line" = i, tabledata "No. Series Pattern NSHLG" = rmi;
+    
     procedure RunDialog(SeriesCode: Code[20])
     var
         NoSeriesPattern: Record "No. Series Pattern NSHLG";
@@ -11,8 +13,8 @@ codeunit 70574000 "Create No. Series Lines NSHLG"
     begin
         if not NoSeriesPattern.Get(SeriesCode) then begin
             NoSeriesPattern.Init();
-            NoSeriesPattern."Series Code" := SeriesCode;
-            NoSeriesPattern.Cadence := NoSeriesPattern.Cadence::Month;
+            NoSeriesPattern.Validate("No. Series Code", SeriesCode);
+            NoSeriesPattern.Validate(Cadence, NoSeriesPattern.Cadence::Month);
         end;
         CreateNoSeriesLines.SetSetup(NoSeriesPattern, this.GetDefaultStartDate(SeriesCode));
         CreateNoSeriesLines.RunModal();
@@ -23,7 +25,7 @@ codeunit 70574000 "Create No. Series Lines NSHLG"
         NoSeriesLine: Record "No. Series Line";
         YearNo: Integer;
     begin
-        YearNo := Date2DMY(WorkDate(), 3);
+        YearNo := WorkDate().Year();
         NoSeriesLine.SetRange("Series Code", SeriesCode);
         repeat
             NoSeriesLine.SetRange("Starting Date", DMY2Date(1, 1, YearNo), DMY2Date(31, 12, YearNo));
@@ -31,7 +33,7 @@ codeunit 70574000 "Create No. Series Lines NSHLG"
                 exit(DMY2Date(1, 1, YearNo));
             YearNo += 1;
         until YearNo >= 9999;
-        exit(DMY2Date(1, 1, Date2DMY(WorkDate(), 3)));
+        exit(DMY2Date(1, 1, WorkDate().Year()));
     end;
 
     internal procedure SaveAndCreateLines(NoSeriesPattern: Record "No. Series Pattern NSHLG"; StartDate: Date): Integer
@@ -53,7 +55,7 @@ codeunit 70574000 "Create No. Series Lines NSHLG"
         WarningOffsetTooLargeErr: Label 'The warning number offset is larger than the range of the starting number.';
         NotUniqueErr: Label 'The pattern %1 does not give every period its own numbers: the period starting %2 (cadence %3) produces the same prefix as an earlier period. Add tokens such as YY, MM, DD, Q or WW.', Comment = '%1 = the pattern, %2 = start date of the period, %3 = cadence';
     begin
-        NoSeriesPattern.TestField("Series Code");
+        NoSeriesPattern.TestField("No. Series Code");
         NoSeriesPattern.TestField(Pattern);
         NoSeriesPattern.TestField(Cadence);
         if StartDate = 0D then
@@ -61,8 +63,8 @@ codeunit 70574000 "Create No. Series Lines NSHLG"
 
         this.SplitPattern(NoSeriesPattern.Pattern, PrefixPattern, NumberPart);
         Width := StrLen(NumberPart);
-        if Width > MaxNumberWidth() then
-            Error(NumberPartTooLongErr, MaxNumberWidth());
+        if Width > this.MaxNumberWidth() then
+            Error(NumberPartTooLongErr, this.MaxNumberWidth());
         Evaluate(StartNumber, NumberPart);
         EndNumber := Power(10, Width) - 1;
         if NoSeriesPattern."Warning No. Offset" > 0 then begin
@@ -81,7 +83,7 @@ codeunit 70574000 "Create No. Series Lines NSHLG"
             Prefixes.Add(Prefix);
         end;
 
-        if SavedPattern.Get(NoSeriesPattern."Series Code") then begin
+        if SavedPattern.Get(NoSeriesPattern."No. Series Code") then begin
             SavedPattern.TransferFields(NoSeriesPattern, false);
             SavedPattern.Modify(true);
         end else begin
@@ -101,7 +103,7 @@ codeunit 70574000 "Create No. Series Lines NSHLG"
         Created: Integer;
         i: Integer;
     begin
-        NoSeriesLine.SetRange("Series Code", NoSeriesPattern."Series Code");
+        NoSeriesLine.SetRange("Series Code", NoSeriesPattern."No. Series Code");
         if NoSeriesLine.FindLast() then
             NextLineNo := NoSeriesLine."Line No.";
 
@@ -109,7 +111,7 @@ codeunit 70574000 "Create No. Series Lines NSHLG"
             StartingNo := Prefixes.Get(i) + NumberPart;
 
             CheckLine.Reset();
-            CheckLine.SetRange("Series Code", NoSeriesPattern."Series Code");
+            CheckLine.SetRange("Series Code", NoSeriesPattern."No. Series Code");
             CheckLine.SetRange("Starting Date", PeriodStarts.Get(i));
             if CheckLine.IsEmpty() then begin
                 CheckLine.SetRange("Starting Date");
@@ -117,13 +119,13 @@ codeunit 70574000 "Create No. Series Lines NSHLG"
                 if CheckLine.IsEmpty() then begin
                     NextLineNo += 10000;
                     NoSeriesLine.Init();
-                    NoSeriesLine."Series Code" := NoSeriesPattern."Series Code";
-                    NoSeriesLine."Line No." := NextLineNo;
-                    NoSeriesLine."Starting Date" := PeriodStarts.Get(i);
+                    NoSeriesLine.Validate("Series Code", NoSeriesPattern."No. Series Code");
+                    NoSeriesLine.Validate("Line No.", NextLineNo);
+                    NoSeriesLine.Validate("Starting Date", PeriodStarts.Get(i));
                     NoSeriesLine.Validate("Starting No.", CopyStr(StartingNo, 1, MaxStrLen(NoSeriesLine."Starting No.")));
-                    NoSeriesLine.Validate("Ending No.", CopyStr(Prefixes.Get(i) + FormatNumber(EndNumber, Width), 1, MaxStrLen(NoSeriesLine."Ending No.")));
+                    NoSeriesLine.Validate("Ending No.", CopyStr(Prefixes.Get(i) + this.FormatNumber(EndNumber, Width), 1, MaxStrLen(NoSeriesLine."Ending No.")));
                     if NoSeriesPattern."Warning No. Offset" > 0 then
-                        NoSeriesLine.Validate("Warning No.", CopyStr(Prefixes.Get(i) + FormatNumber(WarningNumber, Width), 1, MaxStrLen(NoSeriesLine."Warning No.")));
+                        NoSeriesLine.Validate("Warning No.", CopyStr(Prefixes.Get(i) + this.FormatNumber(WarningNumber, Width), 1, MaxStrLen(NoSeriesLine."Warning No.")));
                     NoSeriesLine.Validate("Increment-by No.", NoSeriesPattern."Increment-by No.");
                     NoSeriesLine.Insert(true);
                     Created += 1;
@@ -159,32 +161,32 @@ codeunit 70574000 "Create No. Series Lines NSHLG"
             case Token of
                 'CC':
                     begin
-                        Result += TwoDigits(Date2DMY(PeriodStart, 3) div 100);
+                        Result += this.TwoDigits(PeriodStart.Year() div 100);
                         Position += 2;
                     end;
                 'YY':
                     begin
-                        Result += TwoDigits(Date2DMY(PeriodStart, 3) mod 100);
+                        Result += this.TwoDigits(PeriodStart.Year() mod 100);
                         Position += 2;
                     end;
                 'MM':
                     begin
-                        Result += TwoDigits(Date2DMY(PeriodStart, 2));
+                        Result += this.TwoDigits(PeriodStart.Month());
                         Position += 2;
                     end;
                 'DD':
                     begin
-                        Result += TwoDigits(Date2DMY(PeriodStart, 1));
+                        Result += this.TwoDigits(PeriodStart.Day());
                         Position += 2;
                     end;
                 'WW':
                     begin
-                        Result += TwoDigits(Date2DWY(PeriodStart, 2));
+                        Result += this.TwoDigits(PeriodStart.WeekNo());
                         Position += 2;
                     end;
                 else begin
                     if UpperCase(CopyStr(PrefixPattern, Position, 1)) = 'Q' then
-                        Result += Format((Date2DMY(PeriodStart, 2) - 1) div 3 + 1)
+                        Result += Format((PeriodStart.Month() - 1) div 3 + 1)
                     else
                         Result += CopyStr(PrefixPattern, Position, 1);
                     Position += 1;
@@ -205,7 +207,7 @@ codeunit 70574000 "Create No. Series Lines NSHLG"
         while PeriodStart <= EndDate do begin
             PeriodStarts.Add(PeriodStart);
             Offset += 1;
-            PeriodStart := CalcDate(StepFormula(Cadence, Offset), StartDate);
+            PeriodStart := CalcDate(this.StepFormula(Cadence, Offset), StartDate);
         end;
     end;
 

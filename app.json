@@ -1,21 +1,33 @@
 {
   "id": "2b72a11d-5a46-406b-a5f3-4fc2b9e4d0c1",
-  "name": "No Series Manager",
+  "name": "No. Series Manager",
   "publisher": "Helgesen Consulting, Inc.",
   "version": "0.0.0.1",
-  "brief": "Manage number series",
-  "description": "",
+  "brief": "Create date-based No. Series Lines (week, month, quarter, year) ahead of time from a pattern.",
+  "description": "No. Series Manager keeps period-based number series ready. Define a pattern such as INV-YYMM- or YYQQ per number series, choose week (ISO), month, quarter or year, and let a batch job create or update the No. Series Lines for the coming periods, with the starting, ending and warning numbers, increment and implementation you set, so posting never stops for a missing line.",
+  "privacyStatement": "https://support.helgesenconsulting.com/privacy",
+  "EULA": "https://support.helgesenconsulting.com/eula",
+  "help": "https://support.helgesenconsulting.com/noseriesmanager",
+  "contextSensitiveHelpUrl": "https://support.helgesenconsulting.com/noseriesmanager",
+  "url": "https://support.helgesenconsulting.com",
+  "applicationInsightsConnectionString": "",
   "logo": "src/logo/AppLogo.png",
+  "dependencies": [],
+  "screenshots": [],
+  "platform": "28.0.0.0",
+  "application": "28.0.0.0",
   "idRanges": [
     {
       "from": 70574000,
       "to": 70574009
     }
   ],
-  "platform": "28.0.0.0",
-  "application": "28.0.0.0",
+  "resourceExposurePolicy": {
+    "allowDebugging": true,
+    "allowDownloadingSource": true,
+    "includeSourceInSymbolFile": true
+  },
   "runtime": "17.0",
-  "target": "Cloud",
   "features": [
     "NoImplicitWith",
     "TranslationFile"
