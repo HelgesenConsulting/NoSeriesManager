@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>No. Series Manager Help</title>
+<style>
+  body { font-family: "Segoe UI", Arial, sans-serif; max-width: 52rem; margin: 2rem auto; padding: 0 1rem; line-height: 1.55; color: #222; }
+  h1, h2 { color: #0b5394; }
+  table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+  th, td { border: 1px solid #ccc; padding: .4rem .6rem; text-align: left; vertical-align: top; }
+  th { background: #f2f6fa; }
+  code { background: #f4f4f4; padding: 0 .25rem; border-radius: 3px; }
+</style>
+</head>
+<body>
+<h1>No. Series Manager</h1>
+<p>Create date-based No. Series Lines ahead of time from a pattern, so posting never stops because a period has no line.</p>
+
+<h2>Create No. Series Lines</h2>
+<ol>
+  <li>Open <strong>No. Series</strong> and select a number series.</li>
+  <li>Choose <strong>Processing &gt; Create No. Series Lines</strong>. The action is also on <strong>No. Series Lines</strong>.</li>
+  <li>Fill in the fields below and choose <strong>OK</strong>.</li>
+</ol>
+
+<table>
+  <tr><th>Field</th><th>Description</th></tr>
+  <tr><td>Pattern</td><td>Tokens followed by the starting number, for example <code>CCYY-10000</code>.</td></tr>
+  <tr><td>Cadence</td><td>How often a new line is created: Day, Week, Month, Quarter or Year.</td></tr>
+  <tr><td>Start Date</td><td>The date the first line starts on. Lines are created for one year from this date.</td></tr>
+  <tr><td>Increment-by No.</td><td>The number to increment by when a new number is assigned.</td></tr>
+  <tr><td>Warning No. Offset</td><td>How many numbers before the ending number a warning is given. 0 means no warning number.</td></tr>
+</table>
+
+<h2>Pattern tokens</h2>
+<table>
+  <tr><th>Token</th><th>Replaced with</th></tr>
+  <tr><td><code>CC</code></td><td>Century</td></tr>
+  <tr><td><code>YY</code></td><td>Year (2 digits)</td></tr>
+  <tr><td><code>MM</code></td><td>Month (2 digits)</td></tr>
+  <tr><td><code>DD</code></td><td>Day (2 digits)</td></tr>
+  <tr><td><code>WW</code></td><td>Week number (2 digits)</td></tr>
+  <tr><td><code>Q</code></td><td>Quarter (1–4)</td></tr>
+</table>
+<p>All other characters are kept as typed. Each period must get a unique prefix, so use tokens that change with the chosen cadence.</p>
+
+<h2>Notes</h2>
+<ul>
+  <li>Periods that already have a line (same starting date or starting number) are skipped.</li>
+  <li>The pattern setup is saved per number series.</li>
+  <li>Assign <strong>NSMGR NSHLG, EDIT</strong> to users who create lines.</li>
+</ul>
+
+<p>Support: <a href="https://support.helgesenconsulting.com">support.helgesenconsulting.com</a></p>
+</body>
+</html>
