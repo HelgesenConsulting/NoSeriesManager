@@ -12,7 +12,7 @@ table 70574000 "No. Series Pattern NSHLG"
     {
         field(1; "No. Series Code"; Code[20])
         {
-            Caption = 'Series Code';
+            Caption = 'No. Series Code';
             ToolTip = 'Specifies the number series that the pattern belongs to.';
             TableRelation = "No. Series".Code;
             NotBlank = true;
