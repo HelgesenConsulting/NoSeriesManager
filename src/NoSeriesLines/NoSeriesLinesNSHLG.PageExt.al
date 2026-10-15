@@ -14,6 +14,7 @@ pageextension 70574001 "No. Series Lines NSHLG" extends "No. Series Lines"
                 Caption = 'Create No. Series Lines';
                 ToolTip = 'Create number series lines for a year from a pattern, such as CCYY-10000, and a cadence.';
                 Image = NumberGroup;
+                Ellipsis = true;
 
                 trigger OnAction()
                 var
