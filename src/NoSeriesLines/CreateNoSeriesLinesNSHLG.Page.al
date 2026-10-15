@@ -17,8 +17,13 @@ page 70574000 "Create No. Series Lines NSHLG"
                 Caption = 'General';
                 field("Series Code"; Rec."No. Series Code")
                 {
-                    Caption = 'Series Code';
+                    Caption = 'No. Series Code';
                     Editable = false;
+                }
+                field(Instructions; this.InstructionalTextTxt)
+                {
+                    ShowCaption = false;
+                    MultiLine = true;
                 }
                 field(Pattern; Rec.Pattern)
                 {
@@ -70,4 +75,5 @@ page 70574000 "Create No. Series Lines NSHLG"
     var
         StartDate: Date;
         LinesCreatedMsg: Label '%1 number series line(s) were created.', Comment = '%1 = number of lines created';
+        InstructionalTextTxt: Label 'Use the following tokens in the pattern:\  CC = Century, YY = Year\  MM = Month\  DD = Day\  Q = Quarter';
 }
